@@ -29,6 +29,7 @@ const globals = {
   "react-dom": "ReactDOM",
   clsx: "clsx",
   "date-fns": "dateFns",
+  "date-fns-tz": "dateFnsTz",
   "@floating-ui/react": "FloatingUIReact",
 };
 

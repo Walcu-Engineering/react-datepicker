@@ -195,11 +195,6 @@ export type DatePickerProps = OmitUnion<
      * When set, the datepicker will display dates/times in this timezone and
      * the onChange callback will return dates adjusted to this timezone.
      *
-     * Requires the optional peer dependency `date-fns-tz` to be installed:
-     * ```
-     * npm install date-fns-tz
-     * ```
-     *
      * @example
      * ```tsx
      * <DatePicker

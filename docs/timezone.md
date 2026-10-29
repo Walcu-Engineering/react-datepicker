@@ -4,17 +4,7 @@ This guide explains how react-datepicker handles timezones and provides solution
 
 ## Using the `timeZone` Prop
 
-React-datepicker now supports a `timeZone` prop that allows you to display and handle dates in a specific timezone, regardless of the user's local timezone. This feature requires the optional `date-fns-tz` peer dependency.
-
-### Installation
-
-To use the `timeZone` prop, you need to install `date-fns-tz`:
-
-```bash
-npm install date-fns-tz
-# or
-yarn add date-fns-tz
-```
+React-datepicker now supports a `timeZone` prop that allows you to display and handle dates in a specific timezone, regardless of the user's local timezone. This feature is powered by `date-fns-tz`, which is installed as a dependency.
 
 ### Basic Usage
 
@@ -98,8 +88,6 @@ function TokyoCalendar() {
 ```
 
 ### Important Notes
-
-- **Optional Dependency**: The `timeZone` prop requires `date-fns-tz` to be installed. If it's not installed and you use the `timeZone` prop, a warning will be logged in development mode and the datepicker will fall back to local timezone behavior.
 
 - **UTC Storage**: Even when using a timezone, the Date objects passed to `onChange` represent moments in time (internally stored as UTC). The timezone only affects how dates are displayed and interpreted during selection.
 

@@ -60,75 +60,19 @@ import {
   toDate,
 } from "date-fns";
 
+import {
+  formatInTimeZone as dfTzFormatInTimeZone,
+  fromZonedTime as dfTzFromZonedTime,
+  toZonedTime as dfTzToZonedTime,
+} from "date-fns-tz";
+
 import type { Locale as DateFnsLocale, Day } from "date-fns";
 
-// Timezone support types and utilities
-// These are dynamically imported when timeZone prop is used
 export type TimeZone = string;
-
-interface DateFnsTz {
-  toZonedTime: (date: Date | number | string, timeZone: string) => Date;
-  fromZonedTime: (date: Date | number | string, timeZone: string) => Date;
-  formatInTimeZone: (
-    date: Date | number | string,
-    timeZone: string,
-    formatStr: string,
-    options?: { locale?: DateFnsLocale },
-  ) => string;
-}
-
-// Cache for the date-fns-tz module
-let dateFnsTz: DateFnsTz | null = null;
-let dateFnsTzLoadAttempted = false;
-
-/**
- * Resets the date-fns-tz module cache. Used for testing.
- * @internal
- */
-export function __resetDateFnsTzCache(): void {
-  dateFnsTz = null;
-  dateFnsTzLoadAttempted = false;
-}
-
-/**
- * Sets the date-fns-tz module to null to simulate it not being installed. Used for testing.
- * @internal
- */
-export function __setDateFnsTzNull(): void {
-  dateFnsTz = null;
-  dateFnsTzLoadAttempted = true;
-}
-
-/**
- * Attempts to load date-fns-tz module.
- * Returns null if the module is not installed.
- */
-function getDateFnsTz(): DateFnsTz | null {
-  if (dateFnsTzLoadAttempted) {
-    return dateFnsTz;
-  }
-
-  dateFnsTzLoadAttempted = true;
-
-  try {
-    // Dynamic require for date-fns-tz
-    // Use a variable to prevent webpack from statically analyzing the require
-    // and showing warnings when the optional dependency is not installed
-    // See: https://github.com/Hacker0x01/react-datepicker/issues/6154
-    const dateFnsTzModuleName = "date-fns-tz";
-    // eslint-disable-next-line @typescript-eslint/no-require-imports
-    dateFnsTz = require(dateFnsTzModuleName) as DateFnsTz;
-  } catch {
-    /* istanbul ignore next - only executes when date-fns-tz is not installed */
-    dateFnsTz = null;
-  }
-
-  return dateFnsTz;
-}
 
 /**
  * Converts a date to the specified timezone.
- * If no timezone is specified or date-fns-tz is not installed, returns the original date.
+ * If no timezone is specified, returns the original date.
  *
  * @param date - The date to convert
  * @param timeZone - The IANA timezone identifier (e.g., "America/New_York", "UTC")
@@ -139,23 +83,12 @@ export function toZonedTime(date: Date, timeZone?: TimeZone): Date {
     return date;
   }
 
-  const tz = getDateFnsTz();
-  if (!tz) {
-    if (process.env.NODE_ENV !== "production") {
-      console.warn(
-        'react-datepicker: timeZone prop requires "date-fns-tz" package. ' +
-          "Please install it: npm install date-fns-tz",
-      );
-    }
-    return date;
-  }
-
-  return tz.toZonedTime(date, timeZone);
+  return dfTzToZonedTime(date, timeZone);
 }
 
 /**
  * Converts a date from the specified timezone to UTC.
- * If no timezone is specified or date-fns-tz is not installed, returns the original date.
+ * If no timezone is specified, returns the original date.
  *
  * @param date - The date in the specified timezone
  * @param timeZone - The IANA timezone identifier (e.g., "America/New_York", "UTC")
@@ -166,18 +99,7 @@ export function fromZonedTime(date: Date, timeZone?: TimeZone): Date {
     return date;
   }
 
-  const tz = getDateFnsTz();
-  if (!tz) {
-    if (process.env.NODE_ENV !== "production") {
-      console.warn(
-        'react-datepicker: timeZone prop requires "date-fns-tz" package. ' +
-          "Please install it: npm install date-fns-tz",
-      );
-    }
-    return date;
-  }
-
-  return tz.fromZonedTime(date, timeZone);
+  return dfTzFromZonedTime(date, timeZone);
 }
 
 /**
@@ -204,22 +126,7 @@ export function formatInTimeZone(
     });
   }
 
-  const tz = getDateFnsTz();
-  if (!tz) {
-    if (process.env.NODE_ENV !== "production") {
-      console.warn(
-        'react-datepicker: timeZone prop requires "date-fns-tz" package. ' +
-          "Please install it: npm install date-fns-tz",
-      );
-    }
-    return format(date, formatStr, {
-      locale,
-      useAdditionalWeekYearTokens: true,
-      useAdditionalDayOfYearTokens: true,
-    });
-  }
-
-  return tz.formatInTimeZone(date, timeZone, formatStr, { locale });
+  return dfTzFormatInTimeZone(date, timeZone, formatStr, { locale });
 }
 
 /**

@@ -585,7 +585,7 @@ export const EXAMPLE_CONFIG: IExampleConfig[] = [
   {
     title: "Timezone",
     description:
-      "Display and handle dates in a specific timezone using the timeZone prop. Requires date-fns-tz as a peer dependency.",
+      "Display and handle dates in a specific timezone using the timeZone prop.",
     component: Timezone,
   },
 ];

@@ -3652,12 +3652,8 @@ __metadata:
     typescript: "npm:^5.9.3"
     typescript-eslint: "npm:^8.22.0"
   peerDependencies:
-    date-fns-tz: ^3.0.0
     react: ^16.9.0 || ^17 || ^18 || ^19 || ^19.0.0-rc
     react-dom: ^16.9.0 || ^17 || ^18 || ^19 || ^19.0.0-rc
-  peerDependenciesMeta:
-    date-fns-tz:
-      optional: true
   languageName: unknown
   linkType: soft
 
