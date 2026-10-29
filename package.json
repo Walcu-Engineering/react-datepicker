@@ -1,7 +1,7 @@
 {
   "author": "Walcu Engineering Team",
   "name": "@walcu-engineering/react-datepicker",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "A simple and reusable datepicker component for React",
   "license": "MIT",
   "homepage": "https://github.com/walcu-engineering/react-datepicker",
