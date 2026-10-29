@@ -1,15 +1,19 @@
 {
-  "author": "HackerOne",
-  "name": "react-datepicker",
+  "author": "Walcu Engineering Team",
+  "name": "@walcu-engineering/react-datepicker",
+  "version": "1.0.0",
   "description": "A simple and reusable datepicker component for React",
-  "version": "9.1.0",
   "license": "MIT",
-  "homepage": "https://github.com/Hacker0x01/react-datepicker",
+  "homepage": "https://github.com/walcu-engineering/react-datepicker",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "module": "dist/index.es.js",
   "unpkg": "dist/react-datepicker.min.js",
   "style": "dist/react-datepicker.min.css",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Walcu-Engineering/react-datepicker.git"
+  },
   "exports": {
     ".": {
       "import": {
@@ -24,15 +28,25 @@
     "./dist/": "./dist/",
     "./src/stylesheets/": "./src/stylesheets/"
   },
-  "files": ["*.md", "dist", "lib", "es", "src"],
-  "sideEffects": ["**/*.css"],
-  "keywords": ["react", "datepicker", "calendar", "date", "react-component"],
-  "repository": {
-    "type": "git",
-    "url": "git://github.com/Hacker0x01/react-datepicker.git"
-  },
+  "files": [
+    "*.md",
+    "dist",
+    "lib",
+    "es",
+    "src"
+  ],
+  "sideEffects": [
+    "**/*.css"
+  ],
+  "keywords": [
+    "react",
+    "datepicker",
+    "calendar",
+    "date",
+    "react-component"
+  ],
   "bugs": {
-    "url": "https://github.com/Hacker0x01/react-datepicker/issues"
+    "url": "https://github.com/Walcu-Engineering/react-datepicker/issues"
   },
   "devDependencies": {
     "@babel/core": "^7.26.7",
@@ -135,7 +149,10 @@
     "prepare": "husky"
   },
   "lint-staged": {
-    "*.{js,jsx,ts,tsx,json,css,scss,md}": ["prettier --write", "git add"]
+    "*.{js,jsx,ts,tsx,json,css,scss,md}": [
+      "prettier --write",
+      "git add"
+    ]
   },
   "packageManager": "yarn@4.9.2"
 }
