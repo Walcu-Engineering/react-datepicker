@@ -812,6 +812,39 @@ describe("DatePicker with timeZone prop", () => {
     expect(selectedDate?.getUTCDate()).toBe(26);
   });
 
+  it("should preserve the previously selected time in the target timezone when clicking a different day", () => {
+    // Dec 26 23:59:59 Kathmandu (UTC+05:45) = Dec 26 18:14:59 UTC
+    let selectedDate: Date | null = new Date("2025-12-26T18:14:59Z");
+
+    const { container } = render(
+      <DatePicker
+        selected={selectedDate}
+        onChange={(date) => {
+          selectedDate = date;
+        }}
+        timeZone="Asia/Kathmandu"
+        dateFormat="yyyy-MM-dd"
+        inline
+      />,
+    );
+
+    const dayToClick = Array.from(
+      container.querySelectorAll(".react-datepicker__day"),
+    ).find(
+      (day) =>
+        !day.classList.contains("react-datepicker__day--outside-month") &&
+        day.textContent === "27",
+    );
+    expect(dayToClick).toBeTruthy();
+
+    if (dayToClick) {
+      fireEvent.click(dayToClick);
+    }
+
+    // Dec 27 23:59:59 Kathmandu = Dec 27 18:14:59 UTC
+    expect(selectedDate?.toISOString()).toBe("2025-12-27T18:14:59.000Z");
+  });
+
   // Test for selectsMultiple with timezone
   it("should correctly display and select multiple dates with timezone", () => {
     // Dec 26 00:00 Kiritimati = Dec 25 10:00 UTC

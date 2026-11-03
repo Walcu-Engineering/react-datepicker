@@ -948,6 +948,9 @@ export class DatePicker extends Component<DatePickerProps, DatePickerState> {
       selectsMultiple
     ) {
       if (changedDate !== null) {
+        // Time adjustments are done on the zoned wall-clock date and converted back to UTC afterwards
+        let zonedChangedDate = toZonedTime(changedDate, timeZone);
+
         // Preserve previously selected time if only date is currently being changed
         if (
           this.props.selected &&
@@ -956,10 +959,11 @@ export class DatePicker extends Component<DatePickerProps, DatePickerState> {
               !this.props.showTimeSelectOnly &&
               !this.props.showTimeInput))
         ) {
-          changedDate = setTime(changedDate, {
-            hour: getHours(this.props.selected),
-            minute: getMinutes(this.props.selected),
-            second: getSeconds(this.props.selected),
+          const zonedSelected = toZonedTime(this.props.selected, timeZone);
+          zonedChangedDate = setTime(zonedChangedDate, {
+            hour: getHours(zonedSelected),
+            minute: getMinutes(zonedSelected),
+            second: getSeconds(zonedSelected),
           });
         }
 
@@ -969,7 +973,7 @@ export class DatePicker extends Component<DatePickerProps, DatePickerState> {
           (this.props.showTimeSelect || this.props.showTimeSelectOnly)
         ) {
           if (minTime) {
-            changedDate = setTime(changedDate, {
+            zonedChangedDate = setTime(zonedChangedDate, {
               hour: minTime.getHours(),
               minute: minTime.getMinutes(),
               second: minTime.getSeconds(),
@@ -977,9 +981,11 @@ export class DatePicker extends Component<DatePickerProps, DatePickerState> {
           }
         }
 
+        changedDate = fromZonedTime(zonedChangedDate, timeZone);
+
         if (!this.props.inline) {
           this.setState({
-            preSelection: changedDate,
+            preSelection: zonedChangedDate,
           });
         }
         if (!this.props.focusSelectedMonth) {
